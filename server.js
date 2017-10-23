@@ -3,7 +3,7 @@ var app = express();
 const server = require('http').Server(app);
 const serveIndex = require('serve-index');
 var io = require('socket.io')(server);
-
+const port = process.env.PORT || 700;
 
 app.use(express.static(__dirname));
 app.use('/ftp', express.static('public/ftp'), serveIndex('public/ftp', {'icons': true}));
@@ -12,8 +12,8 @@ app.get('/', (req, res) => {
   res.render("index.html");
 });
 
-server.listen(700);
-console.log("Listening on port 700");
+server.listen(port);
+console.log("Listening on port " + port);
 
 server.lastPlayerID = 0;
 
