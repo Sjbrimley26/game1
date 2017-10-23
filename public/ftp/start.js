@@ -286,6 +286,7 @@ game.addNewPlayer = function(id, x, y, dx, dy, ammo) {
   }
 
   game.playerMap[id].anchor.set(0.5, 0.5);
+  game.playerMap[id].id = id;
   game.playerMap[id].health = 3;
   game.playerMap[id].inventory = ["pistol"];
   game.playerMap[id].equippedWeapon = "pistol";
@@ -430,9 +431,8 @@ game.equipPowerUp = function (sprite1,sprite2) {
       sprite1.equippedWeapon = "shotgun";
       sprite1.ammo["shotgun"] += 15;
       sprite1.inventory.push("shotgun");
-      console.log(sprite1);
       var data = {
-        id: 0,
+        id: sprite1.id,
         ammo: sprite1.ammo
       };
       Client.updateAmmunition(data)
