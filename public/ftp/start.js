@@ -196,7 +196,6 @@ function update() {
 
 
       Object.keys(game.playerMap).map(function(objectKey, index){
-
         game.playerMap[objectKey].body.x += game.playerMap[objectKey].body.velocity.x;
         game.playerMap[objectKey].body.y -= game.playerMap[objectKey].body.velocity.y;
         if (game.playerMap[objectKey].body.velocity.y !== 0 || game.playerMap[objectKey].body.velocity.x !== 0) {
@@ -205,7 +204,6 @@ function update() {
       });
 
       Object.keys(game.bulletMap).map(function(objectKey, index){
-
         game.bulletMap[objectKey].body.x += game.bulletMap[objectKey].body.velocity.x;
         game.bulletMap[objectKey].body.y -= game.bulletMap[objectKey].body.velocity.y;
       });
