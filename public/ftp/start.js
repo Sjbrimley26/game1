@@ -176,7 +176,7 @@ function update() {
       if (ammoText) {
         ammoText.text = capitalizeFirstLetter(game.playerMap[game.localID].equippedWeapon) + " ammo: " + game.playerMap[game.localID].ammo[game.playerMap[game.localID].equippedWeapon];
       }
-      updateAmmo();
+      //updateAmmo();
 
 
 
