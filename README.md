@@ -9,4 +9,4 @@ Run node server.js
 
 accessible on localhost:700
 
-You'll have to change ip addresses to match your local system
+You'll have to change ip address in "client.js" to match your local network
