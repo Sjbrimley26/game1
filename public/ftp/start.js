@@ -430,6 +430,11 @@ game.equipPowerUp = function (sprite1,sprite2) {
       sprite1.equippedWeapon = "shotgun";
       sprite1.ammo["shotgun"] += 15;
       sprite1.inventory.push("shotgun");
+      var data = {
+        id: sprite1.id,
+        ammo: sprite1.ammo
+      };
+      Client.updateAmmunition(data)
       break;
   }
 };
