@@ -428,9 +428,10 @@ game.usedUp = function (sprite1,sprite2) {
 game.equipPowerUp = function (sprite1,sprite2) {
   switch (sprite2["key"]) {
     case "shotgun":
+      game.playerMap[sprite1.id].inventory.push("shotgun");
       game.playerMap[sprite1.id].equippedWeapon = "shotgun";
       game.playerMap[sprite1.id].ammo["shotgun"] += 15;
-      game.playerMap[sprite1.id].inventory.push("shotgun");
+
       var data = {
         id: sprite1.id,
         ammo: game.playerMap[sprite1.id].ammo
@@ -479,8 +480,10 @@ game.weaponUpdate = function (id, weapon) {
 }
 
 game.updateAmmo = function (id, ammo) {
-  if (game.foundID) {
-    game.playerMap[id].ammo = ammo;
+  if (id !== game.localID) {
+    if (game.foundID) {
+      game.playerMap[id].ammo = ammo;
+    }
   }
 }
 
