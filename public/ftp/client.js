@@ -1,5 +1,5 @@
 var Client = {};
-
+// change this ip address to address of whoever is running the server
 Client.socket = io.connect("http://192.168.1.26:700");
 
 Client.askNewPlayer = function() {
@@ -41,15 +41,6 @@ Client.sendShot = function(data) {
   Client.socket.emit('fire', data);
 };
 
-/*
-Client.sendClick = function(x,y) {
-  Client.socket.emit('click', {x:x, y:y});
-};
-
-Client.socket.on('move', function(data){
-  game.movePlayer(data.id,data.x,data.y);
-});
-*/
 
 Client.socket.on("sendID", function(id) {
   game.getPlayerID(id);

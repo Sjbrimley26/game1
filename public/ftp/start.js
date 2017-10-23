@@ -2,7 +2,7 @@ function randomInt (low, high) {
   return Math.floor(Math.random() * (high-low) + low);
 }
 
-// Create a new Phaser game object with a single state that has 3 functions
+
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'area', {
   preload: preload,
   create: create,
@@ -14,7 +14,7 @@ WebFontConfig = {
     families: ['Acme']
   }
 }
-// Called first
+
 function preload() {
   game.load.script('webfont','//ajax.googleapis.com/ajax/libs/webfont/1.4.7/webfont.js');
   game.load.image('naruto', 'ftp/imgs/right3.png');
@@ -40,7 +40,7 @@ var qKey;
 var eKey;
 var ammoText;
 
-// Called after preload
+
 function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -63,19 +63,16 @@ function create() {
   sKey = game.input.keyboard.addKey(Phaser.Keyboard.S);
   dKey = game.input.keyboard.addKey(Phaser.Keyboard.D);
   wKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
-  //layer.events.onInputUp.add(game.getCoordinates, this);
+
   game.playerMap = {};
   game.bulletMap = {};
   game.itemMap = {};
-  // Center game canvas on page
+
   game.scale.pageAlignHorizontally = true;
   game.scale.pageAlignVertically = true;
   game.foundID = false;
   game.stage.disableVisibilityChange = true;
-  //game.spawnPowerUp("shotgun",500,500);
 
-  // Change background color
-  // game.stage.backgroundColor = '#87CEEB';
   healthArray = [];
   for (var i = 0; i < 3; i++) {
     healthArray[i] = game.add.sprite(32+(i*34), 32, "heart");
@@ -91,7 +88,7 @@ function create() {
 
 }
 
-// Called once every frame, ideally 60 times per second
+
 function update() {
 
 
@@ -101,9 +98,7 @@ function update() {
 
   }
 
-  //TO-DO
-  //add server animations
-  //are server bullets necessary? (I don't think so)
+
 
   function startUp () {
 
@@ -201,8 +196,7 @@ function update() {
 
 
       Object.keys(game.playerMap).map(function(objectKey, index){
-        //game.playerMap[objectKey].x += game.playerMap[objectKey].body.velocity.x;
-        //game.playerMap[objectKey].y -= game.playerMap[objectKey].body.velocity.y;
+
         game.playerMap[objectKey].body.x += game.playerMap[objectKey].body.velocity.x;
         game.playerMap[objectKey].body.y -= game.playerMap[objectKey].body.velocity.y;
         if (game.playerMap[objectKey].body.velocity.y !== 0 || game.playerMap[objectKey].body.velocity.x !== 0) {
@@ -211,8 +205,7 @@ function update() {
       });
 
       Object.keys(game.bulletMap).map(function(objectKey, index){
-        //game.bulletMap[objectKey].x += game.bulletMap[objectKey].body.velocity.x;
-        //game.bulletMap[objectKey].y -= game.bulletMap[objectKey].body.velocity.y;
+
         game.bulletMap[objectKey].body.x += game.bulletMap[objectKey].body.velocity.x;
         game.bulletMap[objectKey].body.y -= game.bulletMap[objectKey].body.velocity.y;
       });
@@ -287,7 +280,7 @@ game.addNewPlayer = function(id, x, y, dx, dy, ammo) {
 
     game.playerMap[id] = game.add.sprite(x, y, 'second_guy');
     game.playerMap[id].frame = 0;
-    game.playerMap[id].animations.add('down', [0, 1, 2, 3,4,5,6,7], 8, true); //array = frames from spritesheet, 4 fps, true = looping?
+    game.playerMap[id].animations.add('down', [0, 1, 2, 3,4,5,6,7], 8, true);
   } else {
     game.playerMap[id] = game.add.sprite(x, y, 'shade');
     //add animations for hiatt's guy
@@ -315,33 +308,6 @@ game.removePlayer = function(id) {
   delete game.playerMap[id];
 };
 
-/*
-game.getCoordinates = function(layer, pointer) {
-  Client.sendClick(pointer.worldX, pointer.worldY);
-};
-
-
-game.movePlayer = function(id, x, y) {
-  var player = game.playerMap[id];
-  var distance = Phaser.Math.distance(player.x, player.y, x, y);
-  var duration = distance * 10;
-  var tween = game.add.tween(player);
-  tween.to({
-    x: x,
-    y: y
-  }, duration);
-  tween.start();
-  player.animations.play('down', true);
-  tween.onComplete.add(function() {
-
-    if (game.tweens._tweens.length === 1) {
-      player.animations.stop(true);
-    }
-
-  });
-
-};
-*/
 
 game.getPlayerID = function(id) {
   game.localID = id;
@@ -388,7 +354,7 @@ game.shoot = function(pointer) {
 game.createBullet = function (id,x,y,endX,endY) {
 
   switch (game.playerMap[id].equippedWeapon) {
-    //different cases for each weapon
+
     case "shotgun":
       if (game.playerMap[id].ammo["shotgun"] > 0) {
         game.bulletMap[bulletCounter++] = game.add.sprite(x,y,'shotgunBullet');
@@ -419,7 +385,7 @@ game.createBullet = function (id,x,y,endX,endY) {
         }
         game.playerMap[id].ammo["shotgun"]--;
       } else {
-        //console.log("Out of ammo");
+
       }
       break;
 
@@ -443,7 +409,7 @@ game.createBullet = function (id,x,y,endX,endY) {
 game.spawnPowerUp = function(powerup,x,y) {
   console.log("Spawned a " + powerup + " at " + x + ", " + y);
   switch (powerup) {
-    //case for every item
+
     case "shotgun":
       game.itemMap[itemCounter] = game.add.sprite(x,y,'shotgun');
       game.itemMap[itemCounter].anchor.set(0.5);
