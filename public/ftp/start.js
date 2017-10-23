@@ -172,7 +172,7 @@ function update() {
       itemCollisionDetection();
       velocityUpdate();
       serverLocationUpdate();
-      updateSelectedWeapon();
+      //updateSelectedWeapon();
       if (ammoText) {
         ammoText.text = capitalizeFirstLetter(game.playerMap[game.localID].equippedWeapon) + " ammo: " + game.playerMap[game.localID].ammo[game.playerMap[game.localID].equippedWeapon];
       }
@@ -241,14 +241,7 @@ function update() {
     });
   }
 
-  function updateSelectedWeapon() {
-    var data = {
-      id: game.localID,
-      weapon: game.playerMap[game.localID].equippedWeapon
-    };
-    Client.updateWeapon(data);
 
-  }
 
   function updateAmmo () {
     if (game.foundID) {
@@ -437,6 +430,7 @@ game.equipPowerUp = function (sprite1,sprite2) {
         ammo: game.playerMap[sprite1.id].ammo
       };
       Client.updateAmmunition(data);
+      updateSelectedWeapon(game.localID, game.playerMap[game.localID].equippedWeapon);
       break;
   }
 };
@@ -457,6 +451,7 @@ game.weaponSelectPrevious = function() {
     } else {
       game.playerMap[game.localID].equippedWeapon = game.playerMap[game.localID].inventory[game.playerMap[game.localID].inventory.length-1];
     }
+    updateSelectedWeapon(game.localID, game.playerMap[game.localID].equippedWeapon);
 
 
 
@@ -469,6 +464,7 @@ game.weaponSelectNext = function() {
     } else {
       game.playerMap[game.localID].equippedWeapon = game.playerMap[game.localID].inventory[0];
     }
+    updateSelectedWeapon(game.localID, game.playerMap[game.localID].equippedWeapon);
 
 
 }
@@ -500,4 +496,13 @@ game.startCamera = function() {
   } else {
     setTimeout(game.startCamera,500);
   }
+}
+
+function updateSelectedWeapon(id, weapon) {
+  var data = {
+    id: id,
+    weapon: weapon
+  };
+  Client.updateWeapon(data);
+
 }
