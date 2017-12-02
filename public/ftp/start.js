@@ -90,7 +90,9 @@ function create() {
 
 
 function update() {
-
+  //TODO ammo is not on server: if someone joins later they won't
+  //see how much ammo everyone has
+  //
 
   if (game.foundID) {
     startUp();
@@ -172,11 +174,11 @@ function update() {
       itemCollisionDetection();
       velocityUpdate();
       serverLocationUpdate();
-      updateSelectedWeapon();
+      //updateSelectedWeapon();
       if (ammoText) {
         ammoText.text = capitalizeFirstLetter(game.playerMap[game.localID].equippedWeapon) + " ammo: " + game.playerMap[game.localID].ammo[game.playerMap[game.localID].equippedWeapon];
       }
-      updateAmmo();
+      //updateAmmo();
 
 
 
@@ -241,14 +243,7 @@ function update() {
     });
   }
 
-  function updateSelectedWeapon() {
-    var data = {
-      id: game.localID,
-      weapon: game.playerMap[game.localID].equippedWeapon
-    };
-    Client.updateWeapon(data);
 
-  }
 
   function updateAmmo () {
     if (game.foundID) {
@@ -286,6 +281,7 @@ game.addNewPlayer = function(id, x, y, dx, dy, ammo) {
   }
 
   game.playerMap[id].anchor.set(0.5, 0.5);
+  game.playerMap[id].id = id;
   game.playerMap[id].health = 3;
   game.playerMap[id].inventory = ["pistol"];
   game.playerMap[id].equippedWeapon = "pistol";
@@ -427,9 +423,16 @@ game.usedUp = function (sprite1,sprite2) {
 game.equipPowerUp = function (sprite1,sprite2) {
   switch (sprite2["key"]) {
     case "shotgun":
-      sprite1.equippedWeapon = "shotgun";
-      sprite1.ammo["shotgun"] += 15;
-      sprite1.inventory.push("shotgun");
+      game.playerMap[sprite1.id].inventory.push("shotgun");
+      game.playerMap[sprite1.id].equippedWeapon = "shotgun";
+      game.playerMap[sprite1.id].ammo["shotgun"] += 15;
+
+      var data = {
+        id: sprite1.id,
+        ammo: game.playerMap[sprite1.id].ammo
+      };
+      Client.updateAmmunition(data);
+      updateSelectedWeapon(game.localID, game.playerMap[game.localID].equippedWeapon);
       break;
   }
 };
@@ -450,6 +453,7 @@ game.weaponSelectPrevious = function() {
     } else {
       game.playerMap[game.localID].equippedWeapon = game.playerMap[game.localID].inventory[game.playerMap[game.localID].inventory.length-1];
     }
+    updateSelectedWeapon(game.localID, game.playerMap[game.localID].equippedWeapon);
 
 
 
@@ -462,6 +466,7 @@ game.weaponSelectNext = function() {
     } else {
       game.playerMap[game.localID].equippedWeapon = game.playerMap[game.localID].inventory[0];
     }
+    updateSelectedWeapon(game.localID, game.playerMap[game.localID].equippedWeapon);
 
 
 }
@@ -473,8 +478,10 @@ game.weaponUpdate = function (id, weapon) {
 }
 
 game.updateAmmo = function (id, ammo) {
-  if (game.foundID) {
-    game.playerMap[id].ammo = ammo;
+  if (id !== game.localID) {
+    if (game.foundID) {
+      game.playerMap[id].ammo = ammo;
+    }
   }
 }
 
@@ -491,4 +498,13 @@ game.startCamera = function() {
   } else {
     setTimeout(game.startCamera,500);
   }
+}
+
+function updateSelectedWeapon(id, weapon) {
+  var data = {
+    id: id,
+    weapon: weapon
+  };
+  Client.updateWeapon(data);
+
 }
