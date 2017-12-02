@@ -90,7 +90,9 @@ function create() {
 
 
 function update() {
-
+  //TODO ammo is not on server: if someone joins later they won't
+  //see how much ammo everyone has
+  //
 
   if (game.foundID) {
     startUp();

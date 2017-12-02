@@ -1,6 +1,6 @@
 var Client = {};
 // change this ip address to address of whoever is running the server.
-Client.socket = io.connect("https://peaceful-sea-74558.herokuapp.com/");
+Client.socket = io.connect("http://localhost:700");
 
 Client.askNewPlayer = function() {
   Client.socket.emit('newplayer');
